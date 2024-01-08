@@ -31,7 +31,7 @@ model.train()
 model.load_pretrained(f"{config['Train']['output_dir']}/trained_models")
 
 # use trained model to predict unseen perturbations
-model.prediction(config['Train']['Testing_dataset'], combo_test = True)
+model.prediction(config['dataset']['Testing_dataset'], combo_test = True)
 
 # use trained model to predict unseen perturbations; considering Top 40 DEGs
 # Top 40 DEGs consisting of Top 20 up-regulation genes and Top 20 down-regulation genes
