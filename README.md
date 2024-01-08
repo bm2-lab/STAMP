@@ -3,9 +3,11 @@
 This repository hosts the official implementation of STAMP, a method that can predict perturbation outcomes using single-cell RNA-sequencing data from perturbational experimental screens, involving scenarios such as single genetic perturbations, multiple genetic perturbations and perturbation predicion across cell lines.
 ## Core API interface
 ```python
-from STAMP import STAMP
+from stamp import STAMP, load_config
 import scanpy as sc
-import yaml
+
+# load config file
+config = load_config("./Data/example_config.yml")
 
 # set up and train a STAMP
 model = STAMP(config)
