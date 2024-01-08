@@ -6,7 +6,9 @@ This repository hosts the official implementation of STAMP, a method that can pr
 Install [Pytorch](https://pytorch.org/), and then do `python setup.py install`.
 
 ## Core API interface
-Using this API, you can (1) reproduce the results in our paper and (2) train and test STAMP on your perturbation dataset using a few lines of code.
+Using this API, you can  
+(1) Reproduce the results in our paper  
+(2) Train and test STAMP on your own perturbation datasets using a few lines of code.
 ```python
 from stamp import STAMP, load_config
 import scanpy as sc
