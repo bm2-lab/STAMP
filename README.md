@@ -1,7 +1,12 @@
 # STAMP
 ## Introduction 
 This repository hosts the official implementation of STAMP, a method that can predict perturbation outcomes using single-cell RNA-sequencing data from perturbational experimental screens, involving scenarios such as single genetic perturbations, multiple genetic perturbations and perturbation predicion across cell lines.
+
+## Installation
+Install [PyG](https://pytorch-geometric.readthedocs.io/en/latest/notes/installation.html), and then do `python setup.py install`.
+
 ## Core API interface
+Using this API, you can (1) reproduce the results in our paper and (2) train and test STAMP on your perturbation dataset using a few lines of code.
 ```python
 from stamp import STAMP, load_config
 import scanpy as sc
