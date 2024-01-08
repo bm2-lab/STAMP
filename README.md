@@ -6,7 +6,7 @@ This repository hosts the official implementation of STAMP, a method that can pr
 Install [Pytorch](https://pytorch.org/), and then do `python setup.py install`.
 
 ## Example data
-We have made available the code necessary to generate example data, serving as a practical illustration for training and testing the STAMP model. Additionally, for guidance on configuring the training process of STAMP, we offer an example config file located at `./Data/example_config.yml`.
+We have made available the code necessary to generate example data, serving as a practical illustration for training and testing the STAMP model. Additionally, for guidance on configuring the training process of STAMP, we offer an example config file located at `./Data/example_config.yaml`.
 ```python
 python ./Data/GeneratingExampleData.py
 ```
