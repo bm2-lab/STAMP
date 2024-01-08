@@ -5,6 +5,12 @@ This repository hosts the official implementation of STAMP, a method that can pr
 ## Installation
 Install [Pytorch](https://pytorch.org/), and then do `python setup.py install`.
 
+## Example data
+We have made available the code necessary to generate example data, serving as a practical illustration for training and testing the STAMP model. Additionally, for guidance on configuring the training process of STAMP, we offer an example config file located at `./Data/example_config.yml`.
+```python
+python ./Data/GeneratingExampleData.py
+```
+The example *.h5ad data file has three distinct layers, namely 'level1', 'level2', and 'level3'. The 'level1' layer is a binary matrix, where '0' represents non-differentially expressed genes (non-DEGs) and '1' indicates differentially expressed genes (DEGs). Similarly, 'level2' is another binary matrix, denoting down-regulated genes with '0' and up-regulated genes with '1'. Lastly, the 'level3' layer is a matrix that quantifies the magnitude of gene expression changes.
 ## Core API interface
 Using this API, you can  
 (1) Reproduce the results in our paper  
