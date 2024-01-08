@@ -1,0 +1,11 @@
+[2024-01-08 14:47:37,272][STAMP.py][line:134][INFO] Epoch:[1/10]	steps:16	loss1_train:0.79759	loss2_train:0.69352	loss3_train:0.32161	loss1_test:0.77941	loss2_test:0.69337	loss3_test:0.29287	time:4.355
+[2024-01-08 14:47:41,487][STAMP.py][line:134][INFO] Epoch:[2/10]	steps:16	loss1_train:0.77924	loss2_train:0.69322	loss3_train:0.25942	loss1_test:0.77926	loss2_test:0.69336	loss3_test:0.21642	time:3.902
+[2024-01-08 14:47:45,568][STAMP.py][line:134][INFO] Epoch:[3/10]	steps:16	loss1_train:0.77899	loss2_train:0.69377	loss3_train:0.17493	loss1_test:0.77886	loss2_test:0.69381	loss3_test:0.13191	time:3.771
+[2024-01-08 14:47:49,320][STAMP.py][line:134][INFO] Epoch:[4/10]	steps:16	loss1_train:0.77779	loss2_train:0.69335	loss3_train:0.10727	loss1_test:0.77657	loss2_test:0.69318	loss3_test:0.08846	time:3.413
+[2024-01-08 14:47:53,320][STAMP.py][line:134][INFO] Epoch:[5/10]	steps:16	loss1_train:0.77411	loss2_train:0.69317	loss3_train:0.08467	loss1_test:0.77420	loss2_test:0.69318	loss3_test:0.08353	time:3.686
+[2024-01-08 14:47:56,933][STAMP.py][line:134][INFO] Epoch:[6/10]	steps:16	loss1_train:0.77264	loss2_train:0.69316	loss3_train:0.08380	loss1_test:0.77355	loss2_test:0.69318	loss3_test:0.08373	time:3.277
+[2024-01-08 14:48:00,993][STAMP.py][line:134][INFO] Epoch:[7/10]	steps:16	loss1_train:0.77234	loss2_train:0.69316	loss3_train:0.08357	loss1_test:0.77358	loss2_test:0.69318	loss3_test:0.08341	time:3.747
+[2024-01-08 14:48:04,797][STAMP.py][line:134][INFO] Epoch:[8/10]	steps:16	loss1_train:0.77223	loss2_train:0.69316	loss3_train:0.08344	loss1_test:0.77350	loss2_test:0.69318	loss3_test:0.08340	time:3.507
+[2024-01-08 14:48:08,271][STAMP.py][line:134][INFO] Epoch:[9/10]	steps:16	loss1_train:0.77211	loss2_train:0.69316	loss3_train:0.08344	loss1_test:0.77351	loss2_test:0.69318	loss3_test:0.08340	time:3.156
+[2024-01-08 14:48:11,990][STAMP.py][line:134][INFO] Epoch:[10/10]	steps:16	loss1_train:0.77197	loss2_train:0.69316	loss3_train:0.08344	loss1_test:0.77352	loss2_test:0.69318	loss3_test:0.08340	time:3.421
+[2024-01-08 14:48:11,996][STAMP.py][line:145][INFO] finish training!
