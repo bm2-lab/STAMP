@@ -1,4 +1,6 @@
 # STAMP
+## Introduction 
+## Core API interface
 ```python
 from STAMP import STAMP
 import scanpy as sc
@@ -22,6 +24,8 @@ top_40_data = sc.read_h5ad("./Data/example_test_top40.h5ad")
 
 # prediction
 model.prediction(top_40_data, combo_test = True)
-
-
 ```
+## Citation
+Yicheng Gao, Zhiting Wei, Qi Liu et al. 
+## Contacts
+bm2-lab@tongji.edu.cn
