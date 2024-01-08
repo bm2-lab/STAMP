@@ -1,0 +1,36 @@
+dataset:
+  Training_dataset: ./Data/example_train.h5ad
+  Validation_dataseta: ./Data/example_val.h5ad
+  Testing_dataset: ./Data/example_test.h5ad
+  Gene_embedding: ./Data/example_gene_embeddings.pkl
+Train:
+  Sampling:
+    batch_size: 64
+    sample_shuffle: True
+  
+  Model_Parameter:
+    First_level:
+      in_features: 512
+      out_features: 5000
+
+    Second_level:
+      hid1_features_2: 128
+      hid2_features_2: 64
+      hid3_features_2: 32
+    Third_level:
+      in_feature_3: 32
+      hid1_features_3: 16
+      hid2_features_3: 8
+    device: cuda
+
+  Trainer_parameter:
+    random_seed: 888
+    epoch: 10
+    learning_rate: 0.0001
+  
+  output_dir: ./Output
+
+Inference:
+  Sampling:
+    batch_size: 256
+    sample_shuffle: False
