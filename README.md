@@ -20,7 +20,7 @@ from stamp import STAMP, load_config
 import scanpy as sc
 
 # load config file
-config = load_config("./Data/example_config.yml")
+config = load_config("./Data/example_config.yaml")
 
 # set up and train a STAMP
 model = STAMP(config)
