@@ -1,6 +1,6 @@
 # STAMP
 ## Introduction 
-This repository hosts the official implementation of STAMP, a method that can predict perturbation outcomes using single-cell RNA-sequencing data from perturbational experimental screens using subtask decomposition learning. 
+This repository hosts the official implementation of STAMP, a method that can predict perturbation outcomes using single-cell RNA-sequencing data from perturbational experimental screens using subtask decomposition learning. STAMP can be applied to predict single genetic perturbation outcomes, predict multiple genetic perturbation outcomes and predict genetic perturbation outcomes across cell lines.
 
 ## Installation
 Install [Pytorch](https://pytorch.org/), and then do `python setup.py install`.  
