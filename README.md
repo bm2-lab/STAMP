@@ -12,7 +12,7 @@ We have made available the code necessary to generate example data, serving as a
 python ./Data/GeneratingExampleData.py
 ```
 The example *.h5ad data file has three distinct layers, namely 'level1', 'level2', and 'level3'. The 'level1' layer is a binary matrix, where '0' represents non-differentially expressed genes (non-DEGs) and '1' indicates differentially expressed genes (DEGs). Similarly, 'level2' is another binary matrix, denoting down-regulated genes with '0' and up-regulated genes with '1'. Lastly, the 'level3' layer is a matrix that quantifies the magnitude of gene expression changes.
-## Core API interface
+## Core API interface for model training
 Using this API, you can  
 (1) Reproduce the results in our paper  
 (2) Train and test STAMP on your own perturbation datasets using a few lines of code.
@@ -41,6 +41,35 @@ top_40_data = sc.read_h5ad("./Data/example_test_top40.h5ad")
 
 # prediction
 model.prediction(top_40_data, combo_test = True)
+```
+## Core API interface for model fine-tuning
+```python
+from stamp import STAMP, load_config
+import scanpy as sc
+
+# load config file (we use the example config used for model training to illustrate this)
+config = load_config("./Data/example_config.yaml")
+
+# set up STAMP
+model = STAMP(config)
+
+# load pre-trained model
+model.load_pretrained(f"{config['Train']['output_dir']}/trained_models")
+
+# fine-tuning model
+model.finetuning()
+
+# use fine-tuned model to predict unseen perturbations
+model.prediction(config['dataset']['Testing_dataset'], combo_test = False)
+
+# use fine-tuned model to predict unseen perturbations; considering Top 40 DEGs
+# Top 40 DEGs consisting of Top 20 up-regulation genes and Top 20 down-regulation genes
+
+# load Top 40 test data
+top_40_data = sc.read_h5ad("./Data/example_test_top40.h5ad")
+
+# prediction
+model.prediction(top_40_data, combo_test = False)
 ```
 ## Citation
 Yicheng Gao, Zhiting Wei, Qi Liu et al. 
