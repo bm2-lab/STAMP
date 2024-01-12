@@ -206,9 +206,7 @@ class STAMP:
                             batch_x[1][2].squeeze(1).float().to(self.device))
                 optimizer.zero_grad()
                 loss = 0.1 * losses[0] + 0.5 * losses[1] + 0.4 * losses[2]
-                # loss = losses[0]
                 loss.backward()
-                # nn.utils.clip_grad_value_(self.model.parameters(), clip_value=1.0)
                 optimizer.step()
                 loss1_train += losses[0].item()
                 loss2_train += losses[1].item()
@@ -289,7 +287,6 @@ class STAMP:
 
         try:
             ROCAUC_2 = roc_auc_score(labels2[labels1 == 1], output2[labels1 == 1])
-            # lr_precision2, lr_recall2, _ = precision_recall_curve(labels2[labels1 == 1], output2[labels1 == 1]>0.5)
             lr_precision2, lr_recall2, _ = precision_recall_curve(labels2[labels1 == 1], output2[labels1 == 1])
             PRAUC_2 = auc(lr_recall2, lr_precision2)
         except:
@@ -408,7 +405,6 @@ class STAMP:
             with open(new_cell_line_embedding, 'rb') as fin:
                 Gene_embeddings = pickle.load(fin)
             Gene_embeddings = torch.tensor(Gene_embeddings)
-            # Gene_embeddings = torch.rand(Gene_embeddings.size())
             dataset_test = PerturbDataSet(test_file_path, Gene_embeddings)
         else:
             dataset_test = PerturbDataSet(test_file_path, self.Gene_embeddings)

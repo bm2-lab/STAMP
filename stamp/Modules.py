@@ -43,17 +43,15 @@ class First_level_layer(nn.Module):
                                        nn.Linear(2048, self.out_features)])
             
         self.activation = nn.Sigmoid()
-        # self.activation = nn.ReLU()
-        
+
     def forward(self, X):
         hidden_states = X
         for idx, h in enumerate(self.mapping1):
             hidden_states =  h(hidden_states)
         output = self.activation(hidden_states)
-        # output = hidden_states
         return output
     
-class First_level_layer_new(nn.Module):
+class First_level_layer_concate(nn.Module):
     def __init__(self, hid1_features = 128, hid2_features = 64, hid3_features = 32, gene_embedding_notebook = None):
         super().__init__()
         self.hid1_features = hid1_features
@@ -72,13 +70,9 @@ class First_level_layer_new(nn.Module):
         
     def forward(self, pertub_genes_embeds):
         
-        # pertub_genes_embeds = self.gene_embedding_notebook[pertub_genes]
         pertub_genes_embeds = pertub_genes_embeds.unsqueeze(1).expand(pertub_genes_embeds.shape[0],  self.gene_embedding_notebook.shape[0], -1)
         expanded_notebook = self.gene_embedding_notebook.expand(pertub_genes_embeds.shape[0], self.gene_embedding_notebook.shape[0], -1)
         hids = torch.cat([pertub_genes_embeds, expanded_notebook.to(pertub_genes_embeds.device)], dim = -1)
-        # print(hids.size())
-        # hids = ((pertub_genes_embeds + expanded_notebook) / 2).to(X.device)
-        # print(hids)
         for idx, h in enumerate(self.mapping1):
             hids = h(hids)
         hids_head = self.mapping1_head(hids)
@@ -87,36 +81,6 @@ class First_level_layer_new(nn.Module):
         return output
 
 class Second_level_layer(nn.Module):
-    def __init__(self, hid1_features = 128, hid2_features = 32, gene_embedding_notebook = None):
-        super().__init__()
-        self.hid1_features = hid1_features
-        self.hid2_features = hid2_features
-        self.gene_embedding_notebook = gene_embedding_notebook
-        
-        self.mapping2 = nn.ModuleList([nn.Linear(self.gene_embedding_notebook.shape[1], self.hid1_features), nn.ReLU(), 
-                                       nn.Linear(self.hid1_features, self.hid2_features), nn.ReLU()])
-        self.mapping2_head = nn.Linear(self.hid2_features, 1)
-        
-        self.activation = nn.Sigmoid()
-        
-    def forward(self, X, pertub_genes):
-        
-        with torch.no_grad():
-            mask = X==0
-            pertub_genes_embeds = self.gene_embedding_notebook[pertub_genes]
-            pertub_genes_embeds = pertub_genes_embeds.unsqueeze(1).expand(pertub_genes.shape[0],  self.gene_embedding_notebook.shape[0], -1)
-            expanded_notebook = self.gene_embedding_notebook.expand(pertub_genes.shape[0], self.gene_embedding_notebook.shape[0], -1)
-            # hids = torch.cat([pertub_genes_embeds, expanded_notebook], dim = -1)
-            hids = (pertub_genes_embeds + expanded_notebook).to(X.device)
-            # print(hids)
-        for idx, h in enumerate(self.mapping2):
-            hids = h(hids)
-        hids_head = self.mapping2_head(hids)
-        output_second_level = self.activation(hids_head)
-        
-        return output_second_level, ~mask, hids
-
-class Second_level_layer_train(nn.Module):
     def __init__(self, hid1_features = 128, hid2_features = 64, hid3_features = 32, gene_embedding_notebook = None):
         super().__init__()
         self.hid1_features = hid1_features
@@ -137,12 +101,9 @@ class Second_level_layer_train(nn.Module):
         
         with torch.no_grad():
             mask = X==0
-        # pertub_genes_embeds = self.gene_embedding_notebook[pertub_genes]
         pertub_genes_embeds = pertub_genes_embeds.unsqueeze(1).expand(pertub_genes_embeds.shape[0],  self.gene_embedding_notebook.shape[0], -1)
         expanded_notebook = self.gene_embedding_notebook.expand(pertub_genes_embeds.shape[0], self.gene_embedding_notebook.shape[0], -1)
         hids = torch.cat([pertub_genes_embeds, expanded_notebook.to(X.device)], dim = -1)
-        # hids = (pertub_genes_embeds + expanded_notebook)
-        # print(hids)
         for idx, h in enumerate(self.mapping2):
             hids = h(hids)
         hids_head = self.mapping2_head(hids)
@@ -170,45 +131,6 @@ class Third_level_layer(nn.Module):
         output_third_level = torch.exp(hids_head)
         return output_third_level, mask
 
-class TaskCombineLayer(nn.Module):
-    def __init__(self, in_features, out_features, 
-                 hid1_features_2 = 128, hid2_features_2 = 64, hid3_features_2 = 32,
-                 in_feature_3 = 32, hid1_features_3 = 16, hid2_features_3 = 8, 
-                 gene_embedding_notebook = None ,bias = True):
-        super().__init__()
-        self.first_level_layer = First_level_layer(in_features, out_features, bias)
-        self.gene_embedding_notebook = gene_embedding_notebook
-        self.second_level_layer = Second_level_layer_train(hid1_features_2, hid2_features_2, hid3_features_2, gene_embedding_notebook = self.gene_embedding_notebook)
-        self.third_level_layer = Third_level_layer(in_feature_3, hid1_features_3, hid2_features_3)
-        
-        # self.loss_binary = nn.BCELoss()
-        # self.loss_MSE = nn.MSELoss()
-    def forward(self, X, pertub_genes, 
-                level_1_output, 
-                level_2_output, 
-                level_3_output
-                ) :
-        output_1 = self.first_level_layer(X)
-        # binary loss
-        loss_weights = (level_1_output.shape[1]-level_1_output.sum(1, keepdim = True)) / (level_1_output.sum(1, keepdim = True) + 1)
-        loss_binary = nn.BCELoss(weight = level_1_output * loss_weights + 1)
-        loss_1 = loss_binary(output_1, level_1_output)
-        
-        # logsoftmax_loss
-        # level_1_output = level_1_output / level_1_output.sum(1, keepdim = True)
-        # loss_1 = -torch.sum(F.log_softmax(output_1, dim = 1) * level_1_output, dim = 1).mean()
-        
-        inputs_2 = (output_1 > 0.5) * 1
-        output_2, mask, hids = self.second_level_layer(inputs_2, pertub_genes)
-        # print(output_2)
-        loss_binary = nn.BCELoss(weight = mask, reduction = 'sum')
-        loss_2 = loss_binary(output_2.squeeze(-1), level_2_output) / torch.sum(mask)
-        
-        output_3, mask = self.third_level_layer(hids, mask)
-        loss_3 = torch.sum((mask * (output_3.squeeze(-1)-level_3_output) ** 2)) / torch.sum(mask)
-        
-        return loss_1, loss_2, loss_3, (output_1, output_2, output_3), mask
-
 class TaskCombineLayer_multi_task(nn.Module):
     def __init__(self, in_features, out_features, 
                  hid1_features_2 = 128, hid2_features_2 = 64, hid3_features_2 = 32,
@@ -216,11 +138,11 @@ class TaskCombineLayer_multi_task(nn.Module):
                  gene_embedding_notebook = None ,bias = True):
         super().__init__()
         
+        # you can set gene embeddings as a learnable parameters
         # self.gene_embedding_notebook = nn.Parameter(gene_embedding_notebook)
         self.gene_embedding_notebook = gene_embedding_notebook
         self.first_level_layer = First_level_layer(in_features, out_features)
-        # self.first_level_layer = First_level_layer_new(hid1_features_2, hid2_features_2, hid3_features_2, gene_embedding_notebook = self.gene_embedding_notebook)
-        self.second_level_layer = Second_level_layer_train(hid1_features_2, hid2_features_2, hid3_features_2, gene_embedding_notebook = self.gene_embedding_notebook)
+        self.second_level_layer = Second_level_layer(hid1_features_2, hid2_features_2, hid3_features_2, gene_embedding_notebook = self.gene_embedding_notebook)
         self.third_level_layer = Third_level_layer(in_feature_3, hid1_features_3, hid2_features_3)
         
     def forward(self, X, 
@@ -230,8 +152,6 @@ class TaskCombineLayer_multi_task(nn.Module):
                 ) :
         output_1 = self.first_level_layer(X)
         # binary loss
-        # loss_weights = (level_1_output.shape[1]-level_1_output.sum(1, keepdim = True)) / (level_1_output.sum(1, keepdim = True) + 1)
-        # loss_binary = nn.BCELoss(weight = level_1_output * loss_weights / 4 + 1)
         with torch.no_grad():
             all_num = level_1_output.shape[0] * level_1_output.shape[1]
             DE_num = torch.sum(level_1_output.sum())
@@ -240,12 +160,7 @@ class TaskCombineLayer_multi_task(nn.Module):
             loss_weights = (all_num - DE_num) / DE_num
         loss_binary = nn.BCELoss(weight = level_1_output * loss_weights / 4 + 1)
         loss_1 = loss_binary(output_1.squeeze(-1), level_1_output)
-        # logsoftmax_loss
-        # level_1_output = level_1_output / level_1_output.sum(1, keepdim = True)
-        # loss_1 = -torch.sum(F.log_softmax(output_1, dim = 1) * level_1_output, dim = 1).mean()
-        
-        # inputs_2 = (output_1 > 0.5) * 1
-        # print(level_1_output, pertub_genes)
+
         output_2, mask, hids = self.second_level_layer(level_1_output, X)
         with torch.no_grad():
             up_num = torch.sum(mask * level_2_output)
@@ -267,7 +182,7 @@ class TaskCombineLayer_multi_task(nn.Module):
         
         return loss_1, loss_2, loss_3, (output_1, output_2, output_3), mask
 
-class TaskCombineLayer_multi_task_new(nn.Module):
+class TaskCombineLayer_multi_task_concate(nn.Module):
     def __init__(self, hid1_features_1 = 128, hid2_features_1 = 64, hid3_features_1 = 32,
                  hid1_features_2 = 128, hid2_features_2 = 64, hid3_features_2 = 32,
                  in_feature_3 = 32, hid1_features_3 = 16, hid2_features_3 = 8, 
@@ -276,9 +191,8 @@ class TaskCombineLayer_multi_task_new(nn.Module):
         
         # self.gene_embedding_notebook = nn.Parameter(gene_embedding_notebook)
         self.gene_embedding_notebook = gene_embedding_notebook
-        # self.first_level_layer = First_level_layer(in_features, out_features)
-        self.first_level_layer = First_level_layer_new(hid1_features_1, hid2_features_1, hid3_features_1, gene_embedding_notebook = self.gene_embedding_notebook)
-        self.second_level_layer = Second_level_layer_train(hid1_features_2, hid2_features_2, hid3_features_2, gene_embedding_notebook = self.gene_embedding_notebook)
+        self.first_level_layer = First_level_layer_concate(hid1_features_1, hid2_features_1, hid3_features_1, gene_embedding_notebook = self.gene_embedding_notebook)
+        self.second_level_layer = Second_level_layer(hid1_features_2, hid2_features_2, hid3_features_2, gene_embedding_notebook = self.gene_embedding_notebook)
         self.third_level_layer = Third_level_layer(in_feature_3, hid1_features_3, hid2_features_3)
         
     def forward(self, X, 
@@ -288,8 +202,6 @@ class TaskCombineLayer_multi_task_new(nn.Module):
                 ) :
         output_1 = self.first_level_layer(X)
         # binary loss
-        # loss_weights = (level_1_output.shape[1]-level_1_output.sum(1, keepdim = True)) / (level_1_output.sum(1, keepdim = True) + 1)
-        # loss_binary = nn.BCELoss(weight = level_1_output * loss_weights / 4 + 1)
         with torch.no_grad():
             all_num = level_1_output.shape[0] * level_1_output.shape[1]
             DE_num = torch.sum(level_1_output.sum())
@@ -298,12 +210,7 @@ class TaskCombineLayer_multi_task_new(nn.Module):
             loss_weights = (all_num - DE_num) / DE_num
         loss_binary = nn.BCELoss(weight = level_1_output * loss_weights / 4 + 1)
         loss_1 = loss_binary(output_1.squeeze(-1), level_1_output)
-        # logsoftmax_loss
-        # level_1_output = level_1_output / level_1_output.sum(1, keepdim = True)
-        # loss_1 = -torch.sum(F.log_softmax(output_1, dim = 1) * level_1_output, dim = 1).mean()
         
-        # inputs_2 = (output_1 > 0.5) * 1
-        # print(level_1_output, pertub_genes)
         output_2, mask, hids = self.second_level_layer(level_1_output, X)
         with torch.no_grad():
             up_num = torch.sum(mask * level_2_output)
