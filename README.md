@@ -13,9 +13,7 @@ python ./Data/GeneratingExampleData.py
 ```
 The example *.h5ad data file has three distinct layers, namely 'level1', 'level2', and 'level3'. The 'level1' layer is a binary matrix, where '0' represents non-differentially expressed genes (non-DEGs) and '1' indicates differentially expressed genes (DEGs). Similarly, 'level2' is another binary matrix, denoting down-regulated genes with '0' and up-regulated genes with '1'. Lastly, the 'level3' layer is a matrix that quantifies the magnitude of gene expression changes.
 ## Core API interface for model training
-Using this API, you can  
-(1) Reproduce the results in our paper  
-(2) Train and test STAMP on your own perturbation datasets using a few lines of code.
+Using this API, you can train and test STAMP on your own perturbation datasets using a few lines of code. 
 ```python
 from stamp import STAMP, load_config
 import scanpy as sc
@@ -43,6 +41,7 @@ top_40_data = sc.read_h5ad("./Data/example_test_top40.h5ad")
 model.prediction(top_40_data, combo_test = True)
 ```
 ## Core API interface for model fine-tuning
+Using this API, you can fine-tune and test STAMP on your own perturbation datasets using a few lines of code.
 ```python
 from stamp import STAMP, load_config
 import scanpy as sc
