@@ -23,7 +23,7 @@ Then
 ```python
 pip install .
 ```
-or you can install it from PyPi:
+or you can install it from [PyPI](https://pypi.org/project/cell-stamp/0.1.0/):
 ```
 pip install cell-stamp
 ```
