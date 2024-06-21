@@ -23,6 +23,10 @@ Then
 ```python
 pip install .
 ```
+or you can install it from PyPi:
+```
+pip install cell-stamp
+```
 
 ## Example data
 We have made available the code necessary to generate example data, serving as a practical illustration for training and testing the STAMP model. Additionally, for guidance on configuring the training process of STAMP, we offer an example config file located at `./Data/example_config.yaml`.
