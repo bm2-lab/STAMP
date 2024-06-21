@@ -13,7 +13,7 @@ conda  create -n stamp python==3.9.7
 
 Then, you can activate the environment using:
 ```python
-conda activate cpa
+conda activate stamp
 ```
 Installing Pytorch with following command:
 ```python
