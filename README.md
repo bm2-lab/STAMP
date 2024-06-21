@@ -4,8 +4,17 @@ This repository hosts the official implementation of STAMP, a method that can pr
 <p align="center"><img src="https://github.com/bm2-lab/STAMP/blob/main/img/Fig1.png" alt="STAMP" width="900px" /></p>  
 
 ## Installation
-Install [Pytorch](https://pytorch.org/), and then do `python setup.py install`.  
-(Our experiments were conducted on python=3.9.7 and pytorch=1.10.2)
+Our experiments were conducted on python=3.9.7 and our CUDA version is 11.4.
+```python
+conda  create -n stamp python==3.9.7
+```
+```python
+conda install pytorch==1.10.2 torchvision==0.11.3 torchaudio==0.10.2 -c pytorch
+```
+Then
+```python
+pip install .
+```
 
 ## Example data
 We have made available the code necessary to generate example data, serving as a practical illustration for training and testing the STAMP model. Additionally, for guidance on configuring the training process of STAMP, we offer an example config file located at `./Data/example_config.yaml`.
@@ -13,6 +22,11 @@ We have made available the code necessary to generate example data, serving as a
 python ./Data/GeneratingExampleData.py
 ```
 The example *.h5ad data file has three distinct layers, namely 'level1', 'level2', and 'level3'. The 'level1' layer is a binary matrix, where '0' represents non-differentially expressed genes (non-DEGs) and '1' indicates differentially expressed genes (DEGs). Similarly, 'level2' is another binary matrix, denoting down-regulated genes with '0' and up-regulated genes with '1'. Lastly, the 'level3' layer is a matrix that quantifies the magnitude of gene expression changes.
+
+## Real demo data
+We have uploaded a real demo data from RPE1_essential dataset to our Google drive, which can be obtained from [here](https://drive.google.com/drive/u/0/folders/1igU0HdON9HgbvrvVZf3hrwxRjneLGWzV). Please download all these files into the `./Data` directory and refer `tutorial_for_training.py.ipynb` in `./Tutorial` directory. 
+#### Note: Users are encouraged to change the path of each data in 'Config.yaml' based on their own machines.
+
 ## Core API interface for model training
 Using this API, you can train and test STAMP on your own perturbation datasets using a few lines of code. 
 ```python
