@@ -5,9 +5,17 @@ This repository hosts the official implementation of STAMP, a method that can pr
 
 ## Installation
 Our experiments were conducted on python=3.9.7 and our CUDA version is 11.4.
+
+We recommend using Anaconda / Miniconda to create a conda environment for using STAMP. You can create a python environment using the following command:
 ```python
 conda  create -n stamp python==3.9.7
 ```
+
+Then, you can activate the environment using:
+```python
+conda activate cpa
+```
+Installing Pytorch with following command:
 ```python
 conda install pytorch==1.10.2 torchvision==0.11.3 torchaudio==0.10.2 -c pytorch
 ```
