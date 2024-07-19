@@ -37,7 +37,7 @@ python ./Data/GeneratingExampleData.py
 The example *.h5ad data file has three distinct layers, namely 'level1', 'level2', and 'level3'. The 'level1' layer is a binary matrix, where '0' represents non-differentially expressed genes (non-DEGs) and '1' indicates differentially expressed genes (DEGs). Similarly, 'level2' is another binary matrix, denoting down-regulated genes with '0' and up-regulated genes with '1'. Lastly, the 'level3' layer is a matrix that quantifies the magnitude of gene expression changes.
 
 ## Real demo data
-We have uploaded a real demo data from RPE1_essential dataset to our Google drive, which can be obtained from [here](https://drive.google.com/drive/u/0/folders/1igU0HdON9HgbvrvVZf3hrwxRjneLGWzV). Please download all these files into the `./Data` directory and refer `tutorial_for_training.py.ipynb` in `./Tutorial` directory. 
+We have uploaded all benchmark datasets to Zenodo, which can be obtained from [here](https://zenodo.org/records/12779567). Please download all these files into the `./Data` directory and refer `tutorial_for_training.py.ipynb` in `./Tutorial` directory. This tutorial uses the one fold of RPE1_essential dataset as an example to perform the model training, testing and checking the loss cures.
 #### Note: Users are encouraged to change the path of each data in 'Config.yaml' based on their own machines.
 
 ## Core API interface for model training
