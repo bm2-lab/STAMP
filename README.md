@@ -99,6 +99,6 @@ top_40_data = sc.read_h5ad("./Data/example_test_top40.h5ad")
 model.prediction(top_40_data, combo_test = False)
 ```
 ## Citation
-Yicheng Gao, Zhiting Wei, Qi Liu et al. *Toward subtask decomposition-based learning and benchmarking for genetic perturbation outcome prediction and beyond*, bioRxiv, 2024.
+Yicheng Gao, Zhiting Wei, Qi Liu et al. *Toward subtask decomposition-based learning and benchmarking for genetic perturbation outcome prediction and beyond*, Nature Computational Science, 2024.
 ## Contacts
 bm2-lab@tongji.edu.cn
